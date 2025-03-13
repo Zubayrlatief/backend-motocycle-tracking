@@ -118,7 +118,7 @@ export class Users {
         const qry = `
         SELECT id, firstName, lastName, email, password, role
         FROM Users
-        WHERE email = '${email}}';
+        WHERE email = '${email}';
         `;
         db.query(qry, async (err: any, result: User[]) => {
             if (err) throw err;

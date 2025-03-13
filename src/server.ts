@@ -5,6 +5,7 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import { errorHandling } from "./middleware/errorHandling"
 import { userRouter } from "./routes/users/userRouter";
+import { loginRouter } from "./routes/login/loginRouter";
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use(
 app.get("^/$|/Motorcycle Tracking", (req, res) => {
     res.status(200).sendFile(path.join(__dirname, "./static/index.html"))
 })
+app.use("/login", loginRouter)
 app.use("/users", userRouter)
 app.use(errorHandling)
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
