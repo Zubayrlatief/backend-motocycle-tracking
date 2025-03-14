@@ -10,7 +10,7 @@ export interface User {
     lastName: string;
     email: string;
     password: string;
-    role: "driver" | "renter";
+    roleID: number;
 }
 
 type UserResponse = Omit<User, 'password'>;
@@ -18,12 +18,13 @@ type UserResponse = Omit<User, 'password'>;
 interface TokenPayload {
     email: string;
     password: string;
+    roleID: number;
 }
 
 export class Users {
     fetchUsers(req: Request, res: Response): void {
         const qry =`
-        SELECT id, firstName, lastName, email, role
+        SELECT id, firstName, lastName, email, roleID
         FROM Users;
         `;
         db.query(qry, (err: any, results: UserResponse[]) => {
@@ -37,7 +38,7 @@ export class Users {
 
     fetchUser(req: Request, res: Response): void {
         const qry = `
-        SELECT id, firstName, lastName, email, role
+        SELECT id, firstName, lastName, email, roleID
         FROM Users
         WHERE id = ${req.params.id}
         `;
@@ -57,7 +58,8 @@ export class Users {
         }
         const user: TokenPayload = {
             email: data.email,
-            password: data.password
+            password: data.password,
+            roleID: data.roleID
         };
         const qry = `
         INSERT INTO Users
@@ -114,9 +116,9 @@ export class Users {
     }
 
     async login(req: Request, res: Response): Promise<void> {
-        const { email, password } = req.body as { email: string; password: string };
+        const { email, password, roleID } = req.body as { email: string; password: string; roleID: number;};
         const qry = `
-        SELECT id, firstName, lastName, email, password, role
+        SELECT id, firstName, lastName, email, password, roleID
         FROM Users
         WHERE email = '${email}';
         `;
@@ -130,7 +132,7 @@ export class Users {
             } else {
                 const validPass = await compare(password, result[0].password);
                 if (validPass) {
-                    const token = createToken({ email, password });
+                    const token = createToken({ email, password, roleID});
                     res.json({
                         status: res.statusCode,
                         msg: "You have logged in successfully.",
