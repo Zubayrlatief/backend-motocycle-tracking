@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { users } from "../model/model";
+import { users } from "../Model/model";
 
 export const getAllUsers = (req: Request, res: Response): void => {
     try{

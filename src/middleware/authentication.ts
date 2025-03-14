@@ -5,6 +5,7 @@ import { sign, verify, JwtPayload } from "jsonwebtoken";
 interface TokenUser {
   email: string;
   password: string;
+  roleID: number;
 }
 
 const SECRET_KEY = process.env.SECRET_KEY as string;
@@ -13,7 +14,8 @@ function createToken(user: TokenUser): string {
   return sign(
     {
       email: user.email,
-      password: user.password
+      password: user.password,
+      roleID: user.roleID
     },
     SECRET_KEY,
     {
