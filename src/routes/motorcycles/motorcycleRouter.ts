@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import { getAllMotorcycles, getMotorcycleById, registerMotorcycle, updateMotorcycleById, deleteMotorcylceById } from "../../controllers/motorcycleController";
+import { getAllMotorcycles, getMotorcycleById, registerMotorcycle, updateMotorcycleById, deleteMotorcycleById } from "../../controllers/motorcycleController";
 
 const motorcycleRouter: Router = express.Router();
 
@@ -10,7 +10,7 @@ motorcycleRouter.route("/")
 motorcycleRouter.route("/:id")
 .get(getMotorcycleById)
 .patch(updateMotorcycleById)
-.delete(deleteMotorcylceById)
+.delete(deleteMotorcycleById)
 
 export {
     motorcycleRouter

@@ -45,13 +45,13 @@ export const updateMotorcycleById = (req: Request, res: Response): void => {
     }
 };
 
-export const deleteMotorcylceById = (req: Request, res: Response): void => {
+export const deleteMotorcycleById = (req: Request, res: Response): void => { // Fix function name
     try{
-        motorcycles.deleteMotorcylce(req, res);
+        motorcycles.deleteMotorcycle(req, res); // Fix method call
     }catch(e){
         res.json({
             status: res.statusCode,
             msg: "Failed to delete motorcycle."
-        })
+        });
     }
 };

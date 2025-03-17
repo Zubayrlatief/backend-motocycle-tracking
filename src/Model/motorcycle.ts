@@ -74,7 +74,7 @@ export class Motorcycles {
         })
     }
 
-    deleteMotorcylce(req: Request, res: Response): void {
+    deleteMotorcycle(req: Request, res: Response): void {
         const qry=`
         DELETE FROM Motorcycles
         WHERE bike_id = ${req.params.id};
