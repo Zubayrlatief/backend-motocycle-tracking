@@ -11,13 +11,12 @@ export interface Motorcycle {
     rental_rate_per_week: string;
     engine_cc: string;
     rental_status: Rental_status;
-    owner_id: number;
 }
 
 export class Motorcycles {
     fetchMotorcycles(req: Request, res: Response): Response {
         const qry = `
-        SELECT bike_id, make, model, bike_year, rental_rate_per_week, engine_cc, rental_status, owner_id
+        SELECT bike_id, make, model, bike_year, rental_rate_per_week, engine_cc, rental_status
         FROM Motorcycles;
         `;
         db.query(qry, (err: any, results) => {
@@ -32,7 +31,7 @@ export class Motorcycles {
 
     fetchMotorcycle(req: Request, res: Response): Response {
         const qry = `
-        SELECT bike_id, make, model, bike_year, rental_rate_per_week, engine_cc, rental_status, owner_id
+        SELECT bike_id, make, model, bike_year, rental_rate_per_week, engine_cc, rental_status
         FROM Motorcycles
         WHERE bike_id = ${req.params.id};
         `;
@@ -47,10 +46,12 @@ export class Motorcycles {
     }
 
     addMotorcycle(req: Request, res: Response): Response {
-        const { owner_id } = req.body;
-        if (!owner_id) {
-            return res.status(400).json({ status: res.statusCode, msg: "Owner ID is required." });
+        const { make, model, bike_year, rental_rate_per_week, engine_cc, rental_status } = req.body;
+
+        if (!make || !model || !bike_year || !rental_rate_per_week || !engine_cc || !rental_status) {
+            return res.status(400).json({ status: res.statusCode, msg: "All fields are required." });
         }
+        
 
         const qry = `INSERT INTO Motorcycles SET ?;`;
         db.query(qry, [req.body], (err: any) => {
